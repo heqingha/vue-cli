@@ -1,20 +1,21 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
-import Home from '@/components/home/index.vue'
-Vue.use(Router)
+import Vue from "vue";
+import Router from "vue-router";
+import Home from "components/home/index.vue";
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    // {
-    //   path: '/home',
-    //   name: 'home',
-    //   component: Home
-    // }
+      path: "/",
+      component: Home,
+      children: [
+        {
+          //活动概括
+          path: "/",
+          component: resolve =>
+            require(["../components/list/index.vue"], resolve)
+        }
+      ]
+    }
   ]
-})
+});
