@@ -14,6 +14,12 @@ export default new Router({
           path: "/",
           component: resolve =>
             require(["../components/list/index.vue"], resolve)
+        },
+        {
+          //活动概括
+          path: "/activity",
+          component: resolve =>
+            require(["../components/setting/index.vue"], resolve)
         }
       ]
     }

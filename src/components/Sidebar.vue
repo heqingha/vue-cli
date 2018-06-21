@@ -103,7 +103,7 @@
                     },
                     {
                         icon: 'el-icon-view',
-                        index: 'account',
+                        index: '/',
                         title: '菜单六'
                     }
                 ]
