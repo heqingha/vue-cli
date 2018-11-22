@@ -29,6 +29,7 @@ module.exports = {
       "router": resolve("src/router"),
       "services": resolve("src/services"),
       "util": resolve("src/util"),
+      "store": resolve("src/store"),
       "static": resolve("vue/static"),
     }
   },

@@ -32,8 +32,13 @@
                 items: [
                     {
                         icon: 'el-icon-setting',
-                        index: 'activity',
+                        index: '/',
                         title: '菜单一'
+                    },
+                    {
+                        icon: 'el-icon-view',
+                        index: 'setting',
+                        title: '菜单六'
                     },
                     {
                         icon: 'el-icon-menu',
@@ -101,11 +106,7 @@
                         index: 'member',
                         title: '菜单五'
                     },
-                    {
-                        icon: 'el-icon-view',
-                        index: '/',
-                        title: '菜单六'
-                    }
+                    
                 ]
             }
         },

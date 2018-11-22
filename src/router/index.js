@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "components/home/index.vue";
+import Home from "components/layout/index.vue";
 Vue.use(Router);
 
 export default new Router({
@@ -10,14 +10,14 @@ export default new Router({
       component: Home,
       children: [
         {
-          //活动概括
+          //首页
           path: "/",
           component: resolve =>
-            require(["../components/list/index.vue"], resolve)
+            require(["../components/home/index.vue"], resolve)
         },
         {
-          //活动概括
-          path: "/activity",
+          //设置
+          path: "/setting",
           component: resolve =>
             require(["../components/setting/index.vue"], resolve)
         }
