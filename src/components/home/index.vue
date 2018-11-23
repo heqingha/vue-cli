@@ -23,8 +23,8 @@
     </el-date-picker>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="submitForm('searchForm')">提交</el-button>
-    <el-button @click="resetForm('searchForm')">重置</el-button>
+    <el-button type="primary" @click="submitForm('searchForm')">搜索</el-button>
+    <el-button @click="resetForm('searchForm')">清除</el-button>
   </el-form-item>
 </el-form>
 <el-table
@@ -55,10 +55,10 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="this.$store.state.home.skipCount"
-      :page-sizes="[10, 20, 50, 100]"
+      :page-sizes="[8,10, 20, 50, 100]"
       :page-size="this.$store.state.home.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="this.$store.state.home.total">
+      :total="this.$store.state.home.count">
     </el-pagination>
 </div>
 </template>
@@ -80,9 +80,8 @@ export default {
       tableDataLabel: this.$store.state.home.tableDataLabel,
       loading: this.$store.state.home.loading,
       tableData: this.$store.state.home.tableData,
-      total: this.$store.state.home.total,
       pageSize: this.$store.state.home.pageSize,
-      total: this.$store.state.home.total,
+      count: this.$store.state.home.count,
       skipCount: this.$store.state.home.skipCount
     };
   },
@@ -111,7 +110,10 @@ export default {
               newObj.enddate = oldObj.date[1];
             }
           }
-          console.log(newObj);
+          this.$store.dispatch({
+            type: "HOME_LIST",
+            payload: { ...newObj, pageSize: 6, skipCount: 0 }
+          });
         } else {
           console.log("error submit!!");
           return false;
@@ -124,16 +126,25 @@ export default {
     getList() {
       this.$store.dispatch({
         type: "HOME_LIST",
-        payload: { pageSize: 20, skipCount: 0 }
+        payload: { pageSize: 6, skipCount: 0 }
       });
     },
     handleSizeChange(pageSize) {
-      console.log(222, pageSize);
+      this.$store.dispatch({
+        type: "HOME_LIST",
+        payload: {
+          pageSize,
+          skipCount: 0
+        }
+      });
     },
     handleCurrentChange(page) {
       this.$store.dispatch({
         type: "HOME_LIST",
-        payload: { pageSize: 20, skipCount: this.$store.state.home.skipCount }
+        payload: {
+          pageSize: this.$store.state.home.pageSize,
+          skipCount: (page - 1) * this.$store.state.home.pageSize
+        }
       });
     }
   }
