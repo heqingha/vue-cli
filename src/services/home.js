@@ -7,8 +7,26 @@ const home = {
       data
     });
   },
-  home_add() {
+  home_add(data) {
     // 添加
+    return xhr({
+      url: "/tfPassParkApi/carpaybindcs/insertCarPayBind",
+      data
+    });
+  },
+  home_edit(data) {
+    // 添加
+    return xhr({
+      url: "tfPassParkApi/carpaybindcs/updateCarPayBindById",
+      data
+    });
+  },
+  home_delete(data) {
+    // 添加
+    return xhr({
+      url: "/tfPassParkApi/carpaybindcs/updateCarPayBindDeleted",
+      data
+    });
   }
 };
 

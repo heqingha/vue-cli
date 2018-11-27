@@ -1,5 +1,7 @@
 import home from "services/home";
 import { HOME_LIST } from "../mutation-type";
+import { Loading } from "element-ui";
+import { Notification } from "element-ui";
 export default {
   state: {
     tableDataLabel: [
@@ -29,24 +31,72 @@ export default {
         if (res.result === "success") {
           const newRes = Object.assign(res, payload);
           context.commit("HOME_LIST", newRes);
+        } else {
+          context.commit("HOME_LIST", null);
+        }
+      });
+    },
+    home_add(state, { payload }) {
+      console.log(payload);
+      home.home_add(payload).then(res => {
+        if (res.result === "success") {
+          Notification.success({
+            title: "成功",
+            message: "新增成功"
+          });
+        } else {
+          Notification.error({
+            title: "错误",
+            message: res.msg || "网络错误"
+          });
+        }
+      });
+    },
+    home_delete(state, { payload }) {
+      home.home_delete(payload).then(res => {
+        if (res.result === "success") {
+          Notification.success({
+            title: "成功",
+            message: "删除成功"
+          });
+        } else {
+          Notification.error({
+            title: "错误",
+            message: res.msg || "网络错误"
+          });
+        }
+      });
+    },
+    home_edit(state, { payload }) {
+      home.home_edit(payload).then(res => {
+        if (res.result === "success") {
+          Notification.success({
+            title: "成功",
+            message: "修改成功"
+          });
+        } else {
+          Notification.error({
+            title: "错误",
+            message: res.msg || "网络错误"
+          });
         }
       });
     }
   },
   mutations: {
+    loading(state, payload) {
+      state.loading = true;
+    },
     [HOME_LIST](state, payload) {
-      const { data, loading, count, pageSize, skipCount, page } = payload;
-      state.tableData = data;
       state.loading = false;
+      if (!payload) return;
+      const { data, count, pageSize, skipCount, page } = payload;
+      state.tableData = data;
       state.count = Number(count);
       state.pageSize = pageSize;
       state.skipCount = skipCount / pageSize + 1;
-      // state.skipCount = (skipCount <= 1) ? 1 : (skipCount - 1) * pageSize
-      // state.skipCount = skipCount <= 1 ? 1 : parseInt(skipCount, 10) / pageSize;
     },
-    loading(state, payload) {
-      state.loading = true;
-    }
+    home_add(state, payload) {}
   },
   getters: {
     jian(state) {
