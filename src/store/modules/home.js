@@ -1,6 +1,5 @@
 import home from "services/home";
 import { HOME_LIST } from "../mutation-type";
-import { Loading } from "element-ui";
 import { Notification } from "element-ui";
 export default {
   state: {
@@ -18,7 +17,7 @@ export default {
     tableData: [],
     skipCount: 0,
     count: 0,
-    pageSize: 10,
+    pageSize: 6,
     loading: true
   },
 
@@ -37,7 +36,6 @@ export default {
       });
     },
     home_add(state, { payload }) {
-      console.log(payload);
       home.home_add(payload).then(res => {
         if (res.result === "success") {
           Notification.success({

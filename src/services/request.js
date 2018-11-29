@@ -26,4 +26,4 @@ const xhr = ({ url, data, method = "POST" }) => {
     });
 };
 
-export { apiList, xhr };
+export { xhr };

@@ -22,17 +22,17 @@
       </el-form-item>
     </el-form>
     <el-table v-loading="this.$store.state.home.loading" :data="this.$store.state.home.tableData" border style="width: 100%">
-      <template v-for="item in tableDataLabel">
-                                              <el-table-column
-                                                :prop="item.prop"
-                                                :label="item.label"
-                                                width="180">
-                                              </el-table-column>
+      <template v-for="item in this.$store.state.home.tableDataLabel">
+                                                            <el-table-column
+                                                              :prop="item.prop"
+                                                              :label="item.label"
+                                                              width="180">
+                                                            </el-table-column>
 </template>
 
   <el-table-column fixed="right" label="操作" width="150" scope.row.carpaybindid>
 <template slot-scope="scope">
-  <el-button type="text" size="small" @click="dialogFormVisible = true">
+  <el-button type="text" size="small" @click="handleAdd">
     新增
   </el-button>
   <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
@@ -51,15 +51,10 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="this.$store.state.home.count">
     </el-pagination>
-    <el-dialog title="添加车辆" :visible.sync="dialogFormVisible" :before-close="handleClose">
-      <el-form :model="addForm" :rules="rules" ref='addForm'>
-        <el-form-item label="车牌号" :label-width="formLabelWidth" prop="carplatenumber">
-          <el-input v-model="addForm.carplatenumber"  placeholder="请输入"></el-input>
-        </el-form-item>
-        <el-form-item label="车辆类型" :label-width="formLabelWidth" prop="carmodel">
-          <el-input v-model="addForm.carmodel"  placeholder="请输入"></el-input>
-        </el-form-item>
-      </el-form>
+    <el-dialog title="添加/修改车辆" :visible.sync="dialogFormVisible" :before-close="handleClose">
+    <!-- 子组件 -->
+      <addForm :values='addFormParent'></addForm>
+      <!-- 子组件 -->
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
       <el-button type="primary" @click="handleOk()">确 定</el-button>
@@ -76,10 +71,14 @@
     mapState
   } from "vuex";
   import Qs from "qs";
-  import moment from "moment";
-  import home from "services/home";
-  import {PAGESIZE} from 'util'
+  import addForm from './addForm.vue'
+  import {
+    PAGESIZE
+  } from 'util'
   export default {
+    components: {
+      addForm
+    },
     data() {
       return {
         searchForm: {
@@ -87,46 +86,24 @@
           date: "",
           customerlevel: ""
         },
-        addForm: {
-          carplatenumber: "",
-          carmodel: ""
-        },
-        rules: {
-          carplatenumber: [{
-              required: true,
-              message: '请输入',
-              trigger: 'blur'
-            },
-            {
-              max: 7,
-              message: '格式有误',
-              trigger: 'blur'
-            }
-          ],
-          carmodel: [{
-            required: true,
-            message: '请输入',
-            trigger: 'change'
-          }]
-        },
-        carpaybindid: '',
         dialogFormVisible: false,
-        formLabelWidth: '80px',
-        tableDataLabel: this.$store.state.home.tableDataLabel,
-        loading: this.$store.state.home.loading,
-        tableData: this.$store.state.home.tableData,
-        pageSize: this.$store.state.home.pageSize,
-        count: this.$store.state.home.count,
-        skipCount: this.$store.state.home.skipCount
+        addFormParent: {
+          carplatenumber: "",
+          carmodel: "",
+          carpaybindid: '',
+        }
       };
     },
-    created() {
-      // this.getList();
-    },
+    created() {},
     beforeMount() {
       this.getList(PAGESIZE, 0);
     },
-    mounted() {},
+    beforeUpdate() {
+      console.log(232, this.addFormParent)
+    },
+    mounted() {
+  
+    },
     methods: {
       ...mapMutations([
         "home_ist" // 将 `this.increment()` 映射为 `this.$store.commit('increment')`
@@ -164,48 +141,61 @@
         this.$refs[formName].resetFields();
         this.getList(PAGESIZE, 0);
       },
+      handleAdd() {
+        this.dialogFormVisible = true;
+        this.addFormParent.carpaybindid = '';
+        this.addFormParent.carmodel = '';
+        this.addFormParent.carplatenumber = '';
+      },
       handleOk() {
         const _this = this;
         const {
           carpaybindid,
           carplatenumber,
           carmodel
-        } = this
-        this.$refs['addForm'].validate(valid => {
-          if (valid) {
-            const oldObj = Qs.parse(this.addForm);
-            if (_this.carpaybindid) {
-              _this.$store.dispatch({
-                type: "home_edit",
-                payload: {
-                  carpaybindid,
-                  carmodel,
-                  carplatenumber
-                }
-              }).then((res) => {
-                _this.dialogFormVisible = false;
-                _this.getList(PAGESIZE, 0)
-              })
-            } else {
-              _this.$store.dispatch({
-                type: "home_add",
-                payload: oldObj
-              }).then((res) => {
-                _this.dialogFormVisible = false;
-                _this.getList(PAGESIZE, 0)
-              })
-            }
+        } = this.addFormParent
+        console.log(this.addForm)
+        // this.$refs['addForms'].validate(valid => {
+        if (carplatenumber && carmodel) {
+          // if (valid) {
+          if (carpaybindid) {
+            _this.$store.dispatch({
+              type: "home_edit",
+              payload: {
+                carpaybindid,
+                carmodel,
+                carplatenumber
+              }
+            }).then((res) => {
+              _this.dialogFormVisible = false;
+              _this.getList(PAGESIZE, 0)
+            })
           } else {
-            this.$notify.error({
-              title: '错误',
-              message: '请按表单规则填写'
-            });
-            return false;
+            _this.$store.dispatch({
+              type: "home_add",
+              payload: {
+                carplatenumber,
+                carmodel
+              }
+            }).then((res) => {
+              _this.dialogFormVisible = false;
+              _this.getList(PAGESIZE, 0)
+            })
           }
-        });
+          // }
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '请按表单规则填写'
+          });
+          return false;
+        }
+        // });
       },
       handleClose(done) {
-        this.$refs['addForm'].resetFields();
+        this.addFormParent.carmodel = '';
+        this.addFormParent.carplatenumber = '';
+        // this.$refs['addForms'].resetFields();
         done()
       },
       getList(pageSize, skipCount) {
@@ -247,13 +237,11 @@
         carpaybindid
       }) {
         this.dialogFormVisible = true;
-        this.carpaybindid = carpaybindid;
-        this.carplatenumber = carplatenumber;
-        this.carmodel = carmodel;
-        this.$nextTick(() => {
-          this.addForm.carmodel = carmodel;
-          this.addForm.carplatenumber = carplatenumber;
-        });
+        this.addFormParent.carpaybindid = carpaybindid;
+        // this.$nextTick(() => {
+        this.addFormParent.carmodel = carmodel;
+        this.addFormParent.carplatenumber = carplatenumber;
+        // });
       }
     }
   };
