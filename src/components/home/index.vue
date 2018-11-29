@@ -23,15 +23,17 @@
     </el-form>
     <el-table v-loading="this.$store.state.home.loading" :data="this.$store.state.home.tableData" border style="width: 100%">
       <template v-for="item in this.$store.state.home.tableDataLabel">
-            <el-table-column
-              :prop="item.prop"
-              :label="item.label"
-              width="180">
-            </el-table-column>
+                  <el-table-column
+                    :prop="item.prop"
+                    :label="item.label"
+                    width="180">
+                  </el-table-column>
 </template>
 
-      <el-table-column fixed="right" label="操作" width="150" scope.row.carpaybindid>
+      <el-table-column fixed="right" label="操作" width="200" scope.row.carpaybindid>
 <template slot-scope="scope">
+  <el-button type="text" size="small" @click="handleView(scope.$index, scope.row)">
+    查看</el-button>
   <el-button type="text" size="small" @click="handleAdd">
     新增
   </el-button>
@@ -92,7 +94,6 @@
           carmodel: "",
           carpaybindid: '',
         },
-  
       };
     },
     beforeMount() {
@@ -113,6 +114,7 @@
         console.log('接收从子组件传过来的当前对象', e)
       },
       getList(pageSize, skipCount) {
+        // 用了别名简化之后
         this.HOME_LIST({
           type: "HOME_LISTs",
           payload: {
@@ -206,17 +208,25 @@
         this.addFormParent = {}
         done()
       },
-  
+      handleView(index, {
+        carpaybindid
+      }) {
+        this.$router.push({
+          name: 'detail',
+          query: {
+            carpaybindid
+          }
+        })
+      },
       handleSizeChange(pageSize) {
         this.getList(pageSize, 0)
       },
       handleCurrentChange(page) {
         this.getList(this.$store.state.home.pageSize, (page - 1) * this.$store.state.home.pageSize)
       },
-      handleDelete(index, row) {
-        const {
-          carpaybindid
-        } = row
+      handleDelete(index, {
+        carpaybindid
+      }) {
         this.$confirm('确认删除？')
           .then(_ => {
             this.$store.dispatch({

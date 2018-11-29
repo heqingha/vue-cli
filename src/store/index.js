@@ -5,7 +5,7 @@ import * as getters from "./getters.js";
 import mutations from "./mutations.js";
 import actions from "./actions.js";
 import home from "./modules/home.js";
-
+import detail from "./modules/detail.js";
 import createLogger from "vuex/dist/logger"; // 修改日志
 
 vue.use(vuex);
@@ -17,7 +17,8 @@ export default new vuex.Store({
   mutations, //根级别的mutations名称（官方推荐mutions方法名使用大写）
   actions, //根级别的 action
   modules: {
-    home
+    home,
+    detail
   },
   plugins: debug ? [createLogger()] : [] // 开发环境下显示vuex的状态修改
 });

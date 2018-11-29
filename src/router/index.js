@@ -12,14 +12,21 @@ export default new Router({
         {
           //首页
           path: "/",
+          name:'/',
           component: resolve =>
             require(["../components/home/index.vue"], resolve)
         },
         {
           //设置
-          path: "/setting",
+          name: 'detail',
+          path: "/detail",
           component: resolve =>
-            require(["../components/setting/index.vue"], resolve)
+            require(["../components/detail/index.vue"], resolve)
+        },
+        {
+          path: "*",
+          component: resolve =>
+            require(["../components/layout/notFound.vue"], resolve)
         }
       ]
     }
