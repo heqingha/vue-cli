@@ -3,6 +3,27 @@ import Router from "vue-router";
 import Home from "components/layout/index.vue";
 Vue.use(Router);
 
+// 使用require.context读取当前目录下以route.js命名的路由模块
+// let allRoutes = (req => {
+//   let routes = req
+//     .keys()
+//     .map(key => req(key).default)
+//   return routes
+//   // eslint-disable-next-line
+// })(require.context('./', true, /\-route\.js$/))
+
+// allRoutes = allRoutes.reduce((pre, cur) => {
+//   return pre.concat(cur)
+// }, [])
+
+// allRoutes = allRoutes.concat([{
+//   path: '*',
+//   component: () => import('../views/error/404.vue')
+// }])
+
+// export default allRoutes
+
+
 export default new Router({
   routes: [
     {
