@@ -19,5 +19,9 @@ new Vue({
   router,
   store,
   components: { App },
-  template: "<App/>"
+  template: "<App/>",
+  // 这边证明render 函数的优先级高于 template
+  // render: function(createElement) {
+  //   return createElement('h1', '9999999999999')
+  // }
 });
