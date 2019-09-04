@@ -1,19 +1,18 @@
 <template>
   <div class="home">
     <el-form :model="searchForm" :inline="true" ref='searchForm' class="demo-form-inline">
-      <el-form-item label="车牌号">
-        <el-input v-model="searchForm.carplatenumber" placeholder="请输入车牌号"></el-input>
+      <el-form-item label="车牌">
+        <el-input v-model="searchForm.carplatenumber" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="客户等级">
-        <el-select v-model="searchForm.customerlevel" placeholder="客户等级">
+        <el-select v-model="searchForm.customerlevel" placeholder="等级">
           <el-option label="全部" value="全部"></el-option>
           <el-option label="一般" value="一般"></el-option>
-          <el-option label="普通" value="普通"></el-option>
           <el-option label="重要" value="重要"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="客户等级">
-        <el-date-picker v-model="searchForm.date" type="daterange" range-separator="至" value-format='yyyy-MM-dd' start-placeholder="开始日期" end-placeholder="结束日期">
+      <el-form-item label="时间">
+        <el-date-picker v-model="searchForm.date" type="daterange" range-separator="至" value-format='yyyy-MM-dd' start-placeholder="开始" end-placeholder="结束">
         </el-date-picker>
       </el-form-item>
       <el-form-item class="btn">
@@ -116,7 +115,7 @@
       getList(pageSize, skipCount) {
         // 用了别名简化之后
         this.HOME_LIST({
-          type: "HOME_LISTs",
+          type: "HOME_LIST",
           payload: {
             pageSize,
             skipCount
@@ -166,7 +165,6 @@
           carplatenumber,
           carmodel
         } = this.addFormParent
-        console.log(this.addForm)
         // this.$refs['addForms'].validate(valid => {
         if (carplatenumber && carmodel) {
           // if (valid) {

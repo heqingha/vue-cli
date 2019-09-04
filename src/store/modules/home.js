@@ -4,15 +4,15 @@ import { Notification } from "element-ui";
 export default {
   state: {
     tableDataLabel: [
-      { label: "客户编号", prop: "bindtype" },
-      { label: "客户名称", prop: "caridcode" },
-      { label: "联系手机号", prop: "carlength" },
-      { label: "联系地址", prop: "carmodel" },
-      { label: "客户类型", prop: "carpaybindid" },
-      { label: "客户来源", prop: "carplatecolor" },
-      { label: "客户等级", prop: "carplatenumber" },
-      { label: "是否会员", prop: "cartype" },
-      { label: "外部编号", prop: "createdate" }
+      { label: "编号", prop: "carplatenumber" },
+      { label: "名称", prop: "carmodel" },
+      { label: "手机号", prop: "sjh" },
+      { label: "地址", prop: "dz" },
+      { label: "类型", prop: "lx" },
+      { label: "来源", prop: "ly" },
+      { label: "等级", prop: "dj" },
+      { label: "会员", prop: "hy" },
+      { label: "编号", prop: "carplatenumbera" }
     ],
     tableData: [],
     skipCount: 0,
@@ -26,58 +26,130 @@ export default {
   actions: {
     [HOME_LIST](context, { payload }) {
       context.commit("loading", true);
-      home.home_list(payload).then(res => {
-        if (res.result === "success") {
-          const newRes = Object.assign(res, payload);
-          context.commit("HOME_LIST", newRes);
-        } else {
-          context.commit("HOME_LIST", null);
-        }
-      });
+      // home.home_list(payload).then(res => {
+      //   if (res.result === "success") {
+      //     const newRes = Object.assign(res, payload);
+      //     context.commit("HOME_LIST", newRes);
+      //   } else {
+      //     context.commit("HOME_LIST", [{ carplatenumber: "编号" }]);
+      //   }
+      // });
+      // 有真实接口可以调用  这边模拟
+      setTimeout(() => {
+        const newRes = Object.assign(
+          {
+            data: [
+              {
+                carplatenumber: "编号",
+                carmodel: "名称",
+                sjh: "12345",
+                dz: 122,
+                dj: "一等",
+                carpaybindid: 1
+              },
+              {
+                carplatenumber: "编号",
+                carmodel: "名称",
+                sjh: "12345",
+                dz: 122,
+                dj: "一等",
+                carpaybindid: 2
+              },
+              {
+                carplatenumber: "编号",
+                carmodel: "名称",
+                sjh: "12345",
+                dz: 122,
+                dj: "一等",
+                carpaybindid: 3,
+                lx: "客户"
+              },
+              {
+                carplatenumber: "编号",
+                carmodel: "名称",
+                sjh: "12345",
+                dz: 122,
+                dj: "一等",
+                carpaybindid: 4
+              },
+              {
+                carplatenumber: "编号",
+                carmodel: "名称",
+                sjh: "12345",
+                dz: 122,
+                dj: "一等",
+                carpaybindid: 5
+              }
+            ],
+            count: 88
+          },
+          payload
+        );
+        context.commit("HOME_LIST", newRes);
+      }, 1000);
     },
     home_add(state, { payload }) {
-      home.home_add(payload).then(res => {
-        if (res.result === "success") {
-          Notification.success({
-            title: "成功",
-            message: "新增成功"
-          });
-        } else {
-          Notification.error({
-            title: "错误",
-            message: res.msg || "网络错误"
-          });
-        }
+      // home.home_add(payload).then(res => {
+      //   if (res.result === "success") {
+      //     Notification.success({
+      //       title: "成功",
+      //       message: "新增成功"
+      //     });
+      //   } else {
+      //     Notification.error({
+      //       title: "错误",
+      //       message: res.msg || "网络错误"
+      //     });
+      //   }
+      // });
+      // return new Promise((resolve, reject) => {
+      //   Notification.success({
+      //     title: "错误",
+      //     message: "新增成功"
+      //   });
+      //   resolve("成功");
+      // });
+      Notification.success({
+        title: "成功",
+        message: "新增成功"
       });
     },
     home_delete(state, { payload }) {
-      home.home_delete(payload).then(res => {
-        if (res.result === "success") {
-          Notification.success({
-            title: "成功",
-            message: "删除成功"
-          });
-        } else {
-          Notification.error({
-            title: "错误",
-            message: res.msg || "网络错误"
-          });
-        }
+      // home.home_delete(payload).then(res => {
+      //   if (res.result === "success") {
+      //     Notification.success({
+      //       title: "成功",
+      //       message: "删除成功"
+      //     });
+      //   } else {
+      //     Notification.error({
+      //       title: "错误",
+      //       message: res.msg || "网络错误"
+      //     });
+      //   }
+      // });
+      Notification.success({
+        title: "成功",
+        message: "删除成功"
       });
     },
     home_edit(state, { payload }) {
-      home.home_edit(payload).then(res => {
-        if (res.result === "success") {
-          Notification.success({
-            title: "成功",
-            message: "修改成功"
-          });
-        } else {
-          Notification.error({
-            title: "错误",
-            message: res.msg || "网络错误"
-          });
-        }
+      // home.home_edit(payload).then(res => {
+      //   if (res.result === "success") {
+      //     Notification.success({
+      //       title: "成功",
+      //       message: "修改成功"
+      //     });
+      //   } else {
+      //     Notification.error({
+      //       title: "错误",
+      //       message: res.msg || "网络错误"
+      //     });
+      //   }
+      // });
+      Notification.success({
+        title: "成功",
+        message: "修改成功"
       });
     }
   },
@@ -87,7 +159,7 @@ export default {
     },
     [HOME_LIST](state, payload) {
       state.loading = false;
-      if (!payload) return;
+      // if (!payload) return;
       const { data, count, pageSize, skipCount, page } = payload;
       state.tableData = data;
       state.count = Number(count);

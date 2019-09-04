@@ -1,10 +1,7 @@
 <template>
   <div class="detail">
-    <div>会员名： {{this.$store.state.detail.detail.realname}}</div>
-    <div>类型：{{this.$store.state.detail.detail.bindtype}}</div>
-    <div>数量：{{this.$store.state.detail.detail.carpaybindid}}</div>
-    <div>状态：{{this.$store.state.detail.detail.status}}</div>
-    <div>日期：{{this.$store.state.detail.detail.createdate}}</div>
+    <div>会员名： {{this.$store.state.detail.detail.name}}</div>
+    <div>类型：{{this.$store.state.detail.detail.type}}</div>
   </div>
 </template>
 <style lang='less'>

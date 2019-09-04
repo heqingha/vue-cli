@@ -3,28 +3,28 @@ import { xhr } from "./request";
 const home = {
   home_list(data) {
     return xhr({
-      url: "/tfPassParkApi/carpaybindcs/selectByIndex",
+      url: "/index.....",
       data
     });
   },
   home_add(data) {
     // 添加
     return xhr({
-      url: "/tfPassParkApi/carpaybindcs/insertCarPayBind",
+      url: "/index.....",
       data
     });
   },
   home_edit(data) {
     // 添加
     return xhr({
-      url: "tfPassParkApi/carpaybindcs/updateCarPayBindById",
+      url: "/index.....",
       data
     });
   },
   home_delete(data) {
     // 添加
     return xhr({
-      url: "/tfPassParkApi/carpaybindcs/updateCarPayBindDeleted",
+      url: "/index.....",
       data
     });
   }

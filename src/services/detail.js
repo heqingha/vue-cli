@@ -3,7 +3,7 @@ import { xhr } from "./request";
 const detail = {
   detail(data) {
     return xhr({
-      url: "/tfPassParkApi/carpaybindcs/selectCarPayBindById",
+      url: "/detail.......",
       data
     });
   },
